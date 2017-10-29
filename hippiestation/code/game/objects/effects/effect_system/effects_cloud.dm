@@ -7,4 +7,4 @@
 	..(loc)
 	playsound(loc, 'hippiestation/sound/voice/meeseeksspawn.ogg', 40)
 	icon_state = "smoke"
-	QDEL_IN(src, 12)
+	QDEL_IN(src, 9)

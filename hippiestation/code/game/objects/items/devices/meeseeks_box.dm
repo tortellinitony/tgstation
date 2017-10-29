@@ -62,7 +62,8 @@
 			meeseeks.set_cloned_appearance()
 			meeseeks.job = "Mr. Meeseeks"
 			new /obj/effect/cloud(get_turf(user))
-			animate(meeseeks, alpha = 255, time = 8)
+			animate(meeseeks, alpha = 255, time = 6)
+			meeseeks.gender = NEUTER
 			meeseeks.key = Z.key
 			to_chat(meeseeks, "<span class='boldannounce'>You are a Mr. Meeseeks!</span>")
 			var/request = stripped_input(user, "How should Mr. Meeseeks help you today?")
