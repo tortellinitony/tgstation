@@ -22,20 +22,18 @@
 /mob/living/simple_animal/bot/buttbot/explode()
 	visible_message("<span class='userdanger'>[src] blows apart!</span>")
 	var/turf/T = get_turf(src)
-
+	var/obj/item/organ/butt/B
 	if(prob(50))
 		new /obj/item/bodypart/l_arm/robot(T)
 	if(xeno)
 		new /obj/item/organ/butt/xeno(T)
 	else
-		new /obj/item/organ/butt(T)
-
+		B = new(T)
+		B.icon_state = icon_state
 	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 	s.set_up(3, 1, src)
 	s.start()
-
-	// new /obj/effect/decal/cleanable/blood/oil(loc)
-	..() //qdels us and removes us from processing objects
+	return ..()
 
 /mob/living/simple_animal/bot/buttbot/handle_automated_action()
 	if (!..())
@@ -72,7 +70,7 @@
 	for(var/p in buttphrase)
 		if(prob(20))
 			p="butt"
-		finalphrase = finalphrase+p+" "
+		finalphrase = finalphrase + p + " "
 	finalphrase = replacetext(finalphrase, " #39 ","'")
 	finalphrase = replacetext(finalphrase, " s "," ") //this is really dumb and hacky, gets rid of trailing 's' character on the off chance that '#39' gets swapped
 	if(findtext(finalphrase,"butt"))

@@ -85,6 +85,8 @@
 			B.xeno = 1
 			B.icon_state = "buttbot_xeno"
 			B.speech_list = list("hissing butts", "hiss hiss motherfucker", "nice trophy nerd", "butt", "woop get an alien inspection")
+		else
+			B.add_overlay(icon_state)
 		to_chat(user, "<span class='notice'>You add the robot arm to the butt and... What?</span>")
 		user.dropItemToGround(src)
 		qdel(src)
@@ -97,7 +99,41 @@
 	if(!getorganslot("butt"))
 		if(ishuman(src) || ismonkey(src))
 			var/obj/item/organ/butt/B = new()
+			generatebutticon(B)
 			B.Insert(src)
 		if(isalien(src))
 			var/obj/item/organ/butt/xeno/X = new()
 			X.Insert(src)
+
+/mob/living/carbon/proc/generatebutticon(var/obj/item/organ/butt/B)
+	if(!ishuman(src))
+		return
+	var/mob/living/carbon/human/H = src
+	var/datum/species/S = H.dna.species
+	var/hulk
+	if(S.use_skintones || MUTCOLORS in S.species_traits)
+		B.icon_state = "buttgs"
+		if(H.dna.check_mutation(HULK))
+			hulk = TRUE
+			B.color = "#00aa00"
+	if(MUTCOLORS in S.species_traits && !hulk)
+		if(S.fixed_mut_color)
+			B.color = "#" + S.fixed_mut_color
+		else
+			B.color = "#" + H.dna.features["mcolor"]
+	else if(S.use_skintones && !hulk)
+		B.color = "#" + skintone2hex(H.skin_tone)
+	if(istype(S, /datum/species/skeleton))
+		B.icon_state = "skeleton"
+	if(istype(S, (/datum/species/android || /datum/species/synth)))
+		B.icon_state = "robot"
+	if(istype(S, (/datum/species/fly)))
+		B.icon_state = "fly"
+	if(istype(S, (/datum/species/moth)))
+		B.icon_state = "moth"
+	if(istype(S, (/datum/species/abductor)))
+		B.icon_state = "buttgs"
+		B.color = "#b2b5ba"
+	if(istype(S, (/datum/species/meeseeks)))
+		B.icon_state = "buttgs"
+		B.color = "#6de9ff"
