@@ -741,16 +741,16 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/vape/attackby(obj/item/O, mob/user, params)
 	if(O.tool_behaviour == TOOL_SCREWDRIVER)
 		if(!screw)
-			screw = 1
-			flags |= OPENCONTAINER
+			screw = TRUE
+			ENABLE_BITFIELD(reagents.flags, OPENCONTAINER)
 			to_chat(user, "<span class='notice'>You open the cap on [src].</span>")
 			if(super)
 				add_overlay("vapeopen_med")
 			else
 				add_overlay("vapeopen_low")
 		else
-			screw = 0
-			flags &= ~OPENCONTAINER
+			screw = FALSE
+			DISABLE_BITFIELD(reagents.flags, OPENCONTAINER)
 			to_chat(user, "<span class='notice'>You close the cap on [src].</span>")
 			cut_overlays()
 
@@ -758,12 +758,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(screw && !(obj_flags & EMAGGED))//also kinky
 			if(!super)
 				cut_overlays()
-				super = 1
+				super = TRUE
 				to_chat(user, "<span class='notice'>You increase the voltage of [src].</span>")
 				add_overlay("vapeopen_med")
 			else
 				cut_overlays()
-				super = 0
+				super = FALSE
 				to_chat(user, "<span class='notice'>You decrease the voltage of [src].</span>")
 				add_overlay("vapeopen_low")
 
@@ -776,7 +776,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		if(!(obj_flags & EMAGGED))
 			cut_overlays()
 			obj_flags |= EMAGGED
-			super = 0
+			super = FALSE
 			to_chat(user, "<span class='warning'>You maximize the voltage of [src].</span>")
 			add_overlay("vapeopen_high")
 			var/datum/effect_system/spark_spread/sp = new /datum/effect_system/spark_spread //for effect
